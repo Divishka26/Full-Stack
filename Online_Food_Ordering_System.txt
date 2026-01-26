@@ -1,0 +1,164 @@
+﻿Online Food Ordering System – System Design Document
+
+ Introduction
+The Online Food Ordering System is a full‑stack web application designed to connect students with local food vendors. The platform allows students to browse menus, add items to a cart, place orders, and track delivery, while vendors manage food availability and orders. The system focuses on scalability, security, and smooth order workflow.
+
+Tech Stack
+Frontend: React.js
+Backend: Spring Boot (Java)
+Database: MySQL
+Authentication: JWT‑based authentication
+
+System Requirements
+Functional Requirements
+For Students
+Register and log in securely
+Browse food vendors and menus
+Add/remove items from cart
+Place orders
+Track order status
+For Vendors
+Login and manage menu items
+Toggle food availability (ON/OFF)
+Accept or reject orders
+Update order status
+For Delivery Panel
+View assigned orders
+Update delivery status (Picked, On the Way, Delivered)
+
+Non‑Functional Requirements
+Secure API endpoints
+Fast response time (< 2s per request)
+Scalable architecture
+Data consistency and integrity
+Role‑based access control
+
+System Architecture Overview (High Level Design)
+Architecture Style:
+Client‑Server Architecture
+RESTful APIs
+
+High Level Flow:
+User interacts with React frontend
+Frontend communicates with Spring Boot backend via REST APIs
+Backend processes business logic
+Data stored and retrieved from MySQL
+[ React Frontend ]
+        |
+        v
+[ Spring Boot REST APIs ]
+        |
+        v
+[ MySQL Database ]
+
+Module Breakdown (8 Modules)
+Frontend Modules (3)
+User Interface & Authentication Module
+Menu & Cart Module
+Order Tracking & Delivery View Module
+
+Backend Modules (5)
+Authentication & Authorization Module
+User & Vendor Management Module
+Menu Management Module
+Order Management Module
+Delivery Management Module
+
+Frontend Design (Low Level Design)
+Module 1: User Interface & Authentication (Frontend)
+Responsibilities:
+Login / Signup pages
+Role‑based dashboard (Student / Vendor / Delivery)
+Components:
+Login.jsx
+Register.jsx
+Navbar.jsx
+ProtectedRoute.jsx
+
+Module 2: Menu & Cart (Frontend)
+Responsibilities:
+Display vendor menus
+Add/remove items from cart
+Show total price
+Components:
+MenuList.jsx
+MenuItem.jsx
+Cart.jsx
+
+Module 3: Order Tracking & Delivery View (Frontend)
+Responsibilities:
+Order status tracking
+Delivery updates
+Components:
+Orders.jsx
+OrderDetails.jsx
+DeliveryStatus.jsx
+
+Backend Design (Low Level Design)
+Module 4: Authentication & Authorization (Backend)
+Responsibilities:
+User login & registration
+JWT token generation
+Role‑based access
+APIs:
+POST /api/auth/login
+POST /api/auth/register
+
+Module 5: User & Vendor Management (Backend)
+Responsibilities:
+Manage users and vendors
+Fetch user profiles
+APIs:
+GET /api/users/{id}
+GET /api/vendors
+
+Module 6: Menu Management (Backend)
+Responsibilities:
+Add/update/delete menu items
+Toggle item availability
+APIs:
+POST /api/menu
+PUT /api/menu/{id}/toggle
+GET /api/menu/vendor/{vendorId}
+
+Module 7: Order Management (Backend)
+Responsibilities:
+Create orders
+Update order status
+Manage order workflow
+Order Workflow:
+Order Placed
+Accepted by Vendor
+Preparing
+Out for Delivery
+Delivered
+APIs:
+POST /api/orders
+PUT /api/orders/{id}/status
+GET /api/orders/user/{userId}
+
+Module 8: Delivery Management (Backend)
+Responsibilities:
+Assign delivery personnel
+Update delivery status
+APIs:
+GET /api/delivery/orders
+PUT /api/delivery/{orderId}/status
+
+Database Design
+Main Tables
+users (id, name, email, password, role)
+vendors (id, name, availability)
+menu_items (id, vendor_id, name, price, available)
+orders (id, user_id, vendor_id, status, total_price)
+order_items (id, order_id, menu_item_id, quantity)
+delivery (id, order_id, delivery_status)
+
+ Security Design
+JWT‑based authentication
+Password hashing using BCrypt
+Role‑based endpoint protection
+HTTPS for secure communication
+
+Conclusion
+This system design provides a scalable, secure, and modular Online Food Ordering System suitable for student use. The clear separation of frontend and backend modules ensures maintainability and future enhancements such as payment integration or mobile app support.
