@@ -48,9 +48,25 @@
             <li>TCS</li>
         </ol>
     </section>
+    <section id="adminSection">
+    <h2>Post Job</h2>
+    <form id="jobForm">
+        <input type="text" id="jobTitle" placeholder="Job Title"><br><br>
+        <input type="text" id="companyName" placeholder="Company Name"><br><br>
+        <input type="text" id="jobLocation" placeholder="Location"><br><br>
+        <input type="text" id="salary" placeholder="Salary (optional)"><br><br>
+        <textarea id="jobDescription" placeholder="Job Description"></textarea><br><br>
+        <button type="submit">Add Job</button>
+    </form>
+</section>
+<section>
+    <h2>Job Listings</h2>
+    <div id="jobListings"></div>
+</section>
     <footer>
         <p>&copy; 2026 Job Dhundo. All rights reserved.</p>
         <p>Contact: info@jobdhundo.com</p>
     </footer>
+    <script src="PostJob.js"></script>
 </body>
 </html>
