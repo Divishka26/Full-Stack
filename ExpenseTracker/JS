@@ -1,0 +1,70 @@
+let expenses = [];
+let editIndex = null;
+const formArea = document.getElementById("formArea");
+const tableBody = document.querySelector("#expenseTable tbody");
+const totalDisplay = document.getElementById("total");
+const expenseName = document.createElement("input");
+expenseName.placeholder = "Expense Name";
+const amount = document.createElement("input");
+amount.type = "number";
+amount.placeholder = "Amount";
+const category = document.createElement("select");
+["Food","Travel","Shopping"].forEach(c => {
+  const option = document.createElement("option");
+  option.value = c;
+  option.text = c;
+  category.add(option);
+});
+const addBtn = document.createElement("button");
+addBtn.innerText = "Add Expense";
+const updateBtn = document.createElement("button");
+updateBtn.innerText = "Update Expense";
+[expenseName, amount, category, addBtn, updateBtn].forEach(el => formArea.appendChild(el));
+function renderExpenses() {
+  tableBody.innerHTML = "";
+  expenses.forEach((exp,index) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${exp.name}</td>
+      <td>${exp.amount}</td>
+      <td>${exp.category}</td>
+      <td>
+        <button onclick="editExpense(${index})">Edit</button>
+        <button onclick="deleteExpense(${index})">Delete</button>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+  calculateTotal();
+}
+function calculateTotal() {
+  const total = expenses.reduce((sum, exp) => sum + Number(exp.amount), 0);
+  totalDisplay.textContent = total;
+}
+addBtn.addEventListener("click", () => {
+  if (!expenseName.value || !amount.value) { alert("Enter valid name and amount!"); return; }
+  expenses.push({ name: expenseName.value, amount: amount.value, category: category.value });
+  renderExpenses();
+  clearFields();
+});
+updateBtn.addEventListener("click", () => {
+  if (editIndex === null) { alert("Select an expense to update!"); return; }
+  expenses[editIndex] = { name: expenseName.value, amount: amount.value, category: category.value };
+  renderExpenses();
+  clearFields();
+  editIndex = null;
+});
+function editExpense(index) {
+  editIndex = index;
+  expenseName.value = expenses[index].name;
+  amount.value = expenses[index].amount;
+  category.value = expenses[index].category;
+}
+function deleteExpense(index) {
+  expenses.splice(index,1);
+  renderExpenses();
+}
+function clearFields() {
+  expenseName.value = "";
+  amount.value = "";
+}
