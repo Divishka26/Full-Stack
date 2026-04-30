@@ -1,0 +1,56 @@
+//Prop Drilling 
+
+// App.js
+import Header from "./Header";
+
+function App() {
+  const username = "Rahul123";
+
+  return (
+    <div>
+      <Header username={username} />
+    </div>
+  );
+}
+
+export default App;
+
+// Header.js
+import Icon from "./Icon";
+
+function Header({ username }) {
+  return (
+    <div>
+      <h1>Header</h1>
+      <Icon username={username} />
+    </div>
+  );
+}
+
+export default Header;
+
+// Icon.js
+import UserProfile from "./UserProfile";
+
+function Icon({ username }) {
+  return (
+    <div>
+      <h2>Icon</h2>
+      <UserProfile username={username} />
+    </div>
+  );
+}
+
+export default Icon;
+
+// UserProfile.js
+function UserProfile({ username }) {
+  return (
+    <div>
+      <h3>User Profile</h3>
+      <p>Username: {username}</p>
+    </div>
+  );
+}
+
+export default UserProfile;
